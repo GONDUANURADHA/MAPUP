@@ -1,0 +1,9 @@
+,,,,time_stamp,,,,,,,
+id_1,id_2,car,car_type,Start date,start time,end time,end date,days,Vechile,source,destination
+1,1,15,BMW,12-04-2023,15:00:00,23:00:00,12-04-2023,Monday,bus,vizag,kanchi
+2,2,20,AUDI,13-04-2023,16:00:00,00:00:00,13-04-2023,tuseday,car,hyderabad,bangalore
+3,3,25,FORD,14-04-2023,17:00:00,01:00:00,14-04-2023,Wednesday,lory,himalaya,varanasi
+4,4,18,TOYOTA,15-04-2023,18:00:00,02:00:00,15-04-2023,Thursday,scooty,delhi,kasmir
+5,5,30,KIA,16-04-2023,19:00:00,03:00:00,16-04-2023,Friday,royalendfield,nagpur,yashwanthpu
+6,6,22,MARUTHISUZUKI,17-04-2023,20:00:00,04:00:00,17-04-2023,Saturday,jet,bobay,puri
+7,7,35,sumo,18-04-2023,21:00:00,05:00:00,18-04-2023,Sunday,flight,maharasta,delhi

@@ -1,0 +1,143 @@
+Ans:1)
+
+
+import pandas as pd
+
+def calculate_distance_matrix(dataset_path):
+    df = pd.read_csv(dataset_path)
+
+    unique_ids = sorted(set(df['ID_1']).union(set(df['ID_2'])))
+    distance_matrix = pd.DataFrame(0, index=unique_ids, columns=unique_ids)
+
+    for _, row in df.iterrows():
+        id_1, id_2, distance = row['ID_1'], row['ID_2'], row['Distance']
+
+        distance_matrix.at[id_1, id_2] += distance
+        distance_matrix.at[id_2, id_1] += distance
+    distance_matrix.values[[range(len(distance_matrix))]*2] = 0
+
+    return distance_matrix
+result_distance_matrix = calculate_distance_matrix('C:\\Users\\anura\\OneDrive\\Desktop\\submissions\\datasheet3.CSV')
+print(result_distance_matrix)
+
+
+Ans:2)
+
+
+import pandas as pd
+
+def unroll_distance_matrix(distance_matrix):
+    unique_ids = distance_matrix.index
+
+    id_start_list = []
+    id_end_list = []
+    distance_list = []
+
+    for id_start in unique_ids:
+        for id_end in unique_ids:
+            
+            if id_start != id_end:
+                distance = distance_matrix.at[id_start, id_end]
+
+                
+                id_start_list.append(id_start)
+                id_end_list.append(id_end)
+                distance_list.append(distance)
+
+    
+    unrolled_df = pd.DataFrame({'id_start': id_start_list, 'id_end': id_end_list, 'distance': distance_list})
+
+    return unrolled_df
+result_unrolled_df = unroll_distance_matrix(result_distance_matrix,'C:\\Users\\anura\\OneDrive\\Desktop\\submissions\\datasheet2.CSV')
+print(result_unrolled_df)
+
+
+Ans:3)
+
+
+import pandas as pd
+
+def find_ids_within_ten_percentage_threshold(df, reference_value):
+    
+    reference_df = df[df['id_start'] == reference_value]
+
+    reference_avg_distance = reference_df['distance'].mean()
+
+    lower_threshold = reference_avg_distance - 0.1 * reference_avg_distance
+    upper_threshold = reference_avg_distance + 0.1 * reference_avg_distance
+
+    within_threshold_df = df[(df['distance'] >= lower_threshold) & (df['distance'] <= upper_threshold)]
+    result_ids = sorted(within_threshold_df['id_start'].unique())
+
+    return result_ids
+
+result_reference_ids = find_ids_within_ten_percentage_threshold(result_unrolled_df, 'C:\\Users\\anura\\OneDrive\\Desktop\\submissions\\datasheet2.CSV') 
+print(result_reference_ids)
+
+
+Ans:4)
+
+
+import pandas as pd
+
+def calculate_toll_rate(df):
+    
+    rate_coefficients = {'moto': 0.8, 'car': 1.2, 'rv': 1.5, 'bus': 2.2, 'truck': 3.6}
+
+    # Calculate toll rates for each vehicle type
+    for vehicle_type, rate_coefficient in rate_coefficients.items():
+        df[vehicle_type] = df['distance'] * rate_coefficient
+
+    return df
+result_toll_rates_df = calculate_toll_rate(result_unrolled_df,'C:\\Users\\anura\\OneDrive\\Desktop\\submissions\\datasheet2.CSV')
+print(result_toll_rates_df)
+
+
+Ans:5)
+
+import pandas as pd
+from datetime import time, timedelta
+
+def calculate_time_based_toll_rates(df):
+    
+    time_ranges = [
+        (time(0, 0, 0), time(10, 0, 0), 0.8),
+        (time(10, 0, 0), time(18, 0, 0), 1.2),
+        (time(18, 0, 0), time(23, 59, 59), 0.8)
+    ]
+    
+    weekend_discount_factor = 0.7
+
+    start_day_list = []
+    start_time_list = []
+    end_day_list = []
+    end_time_list = []
+
+   
+    for id_start, id_end in df[['id_start', 'id_end']].drop_duplicates().itertuples(index=False):
+        for start_time, end_time, discount_factor in time_ranges:
+            
+            if start_time <= end_time:
+                start_day, end_day = 'Monday', 'Sunday'
+           
+            else:
+                start_day, end_day = 'Saturday', 'Sunday'
+
+            start_day_list.append(start_day)
+            start_time_list.append(start_time)
+            end_day_list.append(end_day)
+            end_time_list.append(end_time)
+            df.loc[(df['id_start'] == id_start) & (df['id_end'] == id_end) & (df['timestamp'].dt.time >= start_time) & (df['timestamp'].dt.time <= end_time),
+                   ['moto', 'car', 'rv', 'bus', 'truck']] *= discount_factor
+    time_based_toll_rates_df = pd.DataFrame({
+        'start_day': start_day_list,
+        'start_time': start_time_list,
+        'end_day': end_day_list,
+        'end_time': end_time_list
+    })
+
+    result_df = pd.concat([df, time_based_toll_rates_df], axis=1)
+
+    return result_df
+result_time_based_toll_rates_df = calculate_time_based_toll_rates(result_unrolled_df,'C:\\Users\\anura\\OneDrive\\Desktop\\submissions\\datasheet2.CSV')
+print(result_time_based_toll_rates_df)

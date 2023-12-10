@@ -1,0 +1,8 @@
+id_1,id_2,distance,startday,Start date,start time,end time,end date,endday,car,moto,rv,truck,bus,source,destination
+40001,40002,100,Monday,12-04-2023,15:00:00,23:00:00,13-04-2023,tuseday,15,13,23,74,33,vizag,kanchi
+40001,40003,230,tuseday,13-04-2023,16:00:00,00:00:00,14-04-2023,Wednesday,20,73,34,42,61,hyderabad,bangalore
+40001,40005,450,Wednesday,14-04-2023,17:00:00,01:00:00,15-04-2023,Thursday,25,34,67,42,56,himalaya,varanasi
+40001,40006,68,Thursday,15-04-2023,18:00:00,02:00:00,16-04-2023,Friday,18,56,12,31,43,delhi,kasmir
+40001,40008,98,Friday,16-04-2023,19:00:00,03:00:00,17-04-2023,Saturday,30,64,23,34,43,nagpur,yashwanthpu
+40001,40004,29,Saturday,17-04-2023,20:00:00,04:00:00,18-04-2023,Sunday,22,12,54,42,32,bobay,puri
+40001,40007,39,Sunday,18-04-2023,21:00:00,05:00:00,19-04-2023,Monday,35,34,45,11,45,maharasta,delhi
